@@ -32,7 +32,11 @@ namespace VPSBot
         [LuisIntent("greet")]
         public async Task Greet(IDialogContext context, LuisResult result)
         {
+<<<<<<< HEAD
             string message = result.Query + $" sir. \n How can i help you?";
+=======
+            string message = result.Query + $" sir. \n How can i help you?" ;
+>>>>>>> 59674e0895690b15b5aa5175e14715cf073209a4
             await context.PostAsync(message);
             context.Wait(MessageReceived);
         }
