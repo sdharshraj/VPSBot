@@ -49,7 +49,6 @@ namespace VPSBot
             var entities = new List<EntityRecommendation>(result.Entities);
             if (entities.Any((entity) => entity.Type == "Type"))
             {
-                // this part to deal ---------------------------------------------------------
                 foreach (var entity in result.Entities)
                 {
                     string type = null;
