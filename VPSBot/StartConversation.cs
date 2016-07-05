@@ -39,7 +39,7 @@ namespace VPSBot
         [LuisIntent("ending")]
         public async Task Ending(IDialogContext context, LuisResult result)
         {
-            string message = $"Welcome sir. \n Is there anything I can help you with?";
+            string message = $"Welcome sir.";
             await context.PostAsync(message);
             context.Wait(MessageReceived);
         }
@@ -53,21 +53,97 @@ namespace VPSBot
                 foreach (var entity in result.Entities)
                 {
                     string type = null;
+                    string os = null;
+                    string processor = null;
+                    string ram = null;
                     switch (entity.Type)
                     {
-                        case "vps": type = "VPS"; break;
-                        default:
-                            type = "RDP";
+                        case "Type":
+                                switch (entity.Entity)
+                                {
+                                    case "vps":
+                                    case "vpss":
+                                        type = "VPS"; break;
+
+                                    default:
+                                        type = "RDP";
+                                        break;
+                                }
+                            break;
+                        case "os":
+                            switch (entity.Entity)
+                            {
+                                case "windows":
+                                case "window":
+                                case "win":
+                                    os = "Windows"; break;
+
+                                default:
+                                    os = "Linux";
+                                    break;
+                            }
+                            break;
+                        case "Processor":
+                            switch (entity.Entity)
+                            {
+                                case "one core":
+                                case "single core":
+                                case "singlecore":
+                                    processor = "One Core"; break;
+                                case "two core":
+                                case "double core":
+                                case "twocore":
+                                case "doublecore":
+                                    processor = "Two Core"; break;
+                                case "eight core":
+                                case "eightcore":
+                                case "octacore":
+                                    processor = "Octa Core"; break;
+                                default:
+                                    processor = "Quade Core";
+                                    break;
+                            }
+                            break;
+                        case "Ram":
+                            switch (entity.Entity)
+                            {
+                                case "1gb":
+                                case "one gb":
+                                case "onegb":
+                                    ram = "One GB"; break;
+                                case "2gb":
+                                case "two gb":
+                                case "twogb":
+                                    ram = "Two GB"; break;
+                                case "3gb":
+                                case "three gb":
+                                case "threegb":
+                                    ram = "Three GB"; break;
+                                default:
+                                    ram = "Four GB";
+                                    break;
+                            }
                             break;
                     }
                     if (type != null)
                     {
-                        entities.Add(new EntityRecommendation(type: type) { Entity = "Type" });
-                        break;
+                        entities.Add(new EntityRecommendation(type: "type") { Entity = type });
+                    }
+                    if (os != null)
+                    {
+                        entities.Add(new EntityRecommendation(type: "os") { Entity = os });
+                    }
+                    if (processor != null)
+                    {
+                        entities.Add(new EntityRecommendation(type: "processor") { Entity = processor });
+                    }
+                    if (ram != null)
+                    {
+                        entities.Add(new EntityRecommendation(type: "ram") { Entity = ram });
                     }
                 }
             }
-          
+               
             var productForm = new FormDialog<ProductOrder>(new ProductOrder(), this.MakeProductForm, FormOptions.PromptInStart, entities);
             context.Call<ProductOrder>(productForm, ProductFormComplete);
         }
