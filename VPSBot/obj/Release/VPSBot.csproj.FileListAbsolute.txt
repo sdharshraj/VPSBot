@@ -27,5 +27,6 @@ C:\Users\M1036076\Documents\Visual Studio 2015\Projects\VPSBot\VPSBot\bin\fr\Mic
 C:\Users\M1036076\Documents\Visual Studio 2015\Projects\VPSBot\VPSBot\bin\ja\Microsoft.Bot.Builder.resources.dll
 C:\Users\M1036076\Documents\Visual Studio 2015\Projects\VPSBot\VPSBot\bin\ru\Microsoft.Bot.Builder.resources.dll
 C:\Users\M1036076\Documents\Visual Studio 2015\Projects\VPSBot\VPSBot\bin\zh-hans\Microsoft.Bot.Builder.resources.dll
-C:\Users\M1036076\Documents\Visual Studio 2015\Projects\VPSBot\VPSBot\obj\Debug\VPSBot.dll
-C:\Users\M1036076\Documents\Visual Studio 2015\Projects\VPSBot\VPSBot\obj\Debug\VPSBot.pdb
+C:\Users\M1036076\Documents\Visual Studio 2015\Projects\VPSBot\VPSBot\obj\Release\VPSBot.csprojResolveAssemblyReference.cache
+C:\Users\M1036076\Documents\Visual Studio 2015\Projects\VPSBot\VPSBot\obj\Release\VPSBot.dll
+C:\Users\M1036076\Documents\Visual Studio 2015\Projects\VPSBot\VPSBot\obj\Release\VPSBot.pdb
