@@ -13,7 +13,7 @@ namespace VPSBot
     public enum LinuxOptions { Mailing = 1, WebHosting, Scripting}
 
     public enum Processor { OneCore = 1, TwoCore, QuadCore, OctaCore}
-    public enum productRAM { OneGB, TwoGB, ThreeGB, FourGB };
+    public enum productRAM { OneGB =1, TwoGB, ThreeGB, FourGB };
 
     [Serializable]
     public class ProductOrder
@@ -23,13 +23,13 @@ namespace VPSBot
         [Prompt("Which OS you want? {||}")]
         [Template(TemplateUsage.NotUnderstood,"What does \"{0}\" mean?")]
         [Describe("Type of OS")]
-        public productOS os;
+        public productOS? os;
         [Describe("option how you want to use")]
         public WindowOption windowsUses;
         [Describe("option How you want to use")]
         public LinuxOptions linuxUses;
         public Processor? processor;
-        public productRAM ram;
+        public productRAM? ram;
 
         public override string ToString()
         {

@@ -150,9 +150,16 @@ namespace VPSBot
         private async Task ProductFormComplete(IDialogContext context, IAwaitable<ProductOrder> result)
         {
             ProductOrder order = null;
+            OrderEntity entity = new OrderEntity();
             try
             {
                 order = await result;
+                entity.processor = order.processor.Value.ToString();
+
+                entity.type = order.type.Value.ToString();
+                entity.os = order.os.Value.ToString();
+                entity.ram = order.ram.Value.ToString();
+                
             }
             catch (OperationCanceledException)
             {
@@ -160,7 +167,7 @@ namespace VPSBot
                 return;
             }
 
-            if (order != null)
+            if (SaveOrder.CreateOrder(entity))
             {
                 await context.PostAsync("Your Product Order: " + order.ToString());
             }
