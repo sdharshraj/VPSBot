@@ -167,7 +167,7 @@ namespace VPSBot
                 return;
             }
 
-            if (SaveOrder.CreateOrder(entity))
+            if (order !=null)
             {
                 await context.PostAsync("Your Product Order: " + order.ToString());
             }

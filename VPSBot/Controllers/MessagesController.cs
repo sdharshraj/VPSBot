@@ -5,10 +5,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
-using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.FormFlow;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Builder.Dialogs;
+using System.Diagnostics;
 
 namespace VPSBot
 {
@@ -19,16 +21,30 @@ namespace VPSBot
         /// POST: api/Messages
         /// Receive a message from a user and reply to it
         /// </summary>
-        public async Task<Message> Post([FromBody]Message message)
+        [ResponseType(typeof(void))]
+        public virtual async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
-            if (message.Type == "Message")
+            if (activity != null)
             {
-                return await Conversation.SendAsync(message, MakeRoot);
+                // one of these will have an interface and process it
+                switch (activity.GetActivityType())
+                {
+                    case ActivityTypes.Message:
+                        await Conversation.SendAsync(activity, MakeRoot);
+                        break;
+
+                    case ActivityTypes.ConversationUpdate:
+                    case ActivityTypes.ContactRelationUpdate:
+                    case ActivityTypes.Typing:
+                    case ActivityTypes.DeleteUserData:
+                    default:
+                        Trace.TraceError($"Unknown activity type ignored: {activity.GetActivityType()}");
+                        break;
+                }
             }
-            else
-            {
-                return HandleSystemMessage(message);
-            }
+            return new HttpResponseMessage(System.Net.HttpStatusCode.Accepted);
+
+
         }
 
         internal static IDialog<ProductOrder> MakeRoot()
@@ -36,11 +52,11 @@ namespace VPSBot
             return Chain.From(() => new StartConversation(StartConversation.BuildForm));
         }
 
-        private Message HandleSystemMessage(Message message)
+        private Activity HandleSystemMessage(Activity message)
         {
             if (message.Type == "Ping")
             {
-                Message reply = message.CreateReplyMessage();
+                Activity reply = message.CreateReply();
                 reply.Type = "Ping";
                 return reply;
             }
